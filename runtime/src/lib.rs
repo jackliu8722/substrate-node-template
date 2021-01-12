@@ -276,6 +276,19 @@ impl pallet_poe2::Trait for Runtime {
 	type ClaimMaxSize = ClaimMaxSize;
 }
 
+
+parameter_types! {
+	pub const StakingCreate: u128 = 10000;
+}
+
+impl pallet_kitties::Trait for Runtime {
+	type KittyIndex = u32;
+	type Event = Event;
+	type RandomnessSource = RandomnessCollectiveFlip;
+	type Currency = Balances;
+	type StakingCreate = StakingCreate;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
@@ -294,6 +307,7 @@ construct_runtime!(
 		// Include the custom logic from the poe pallet in the runtime.
 		PoeModule: pallet_poe::{Module, Call, Storage, Event<T>},
 		PoeModule2: pallet_poe2::{Module, Call, Storage, Event<T>},
+		KittiesModule: pallet_kitties::{Module, Call, Storage, Event<T>},
 	}
 );
 
